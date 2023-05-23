@@ -5,7 +5,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         ArrayList<Loja> listaDeLojas;
-        listaDeLojas = Loja.lerLojas("entradas/testePermu.txt");
+        listaDeLojas = Loja.lerLojas("entradas/lojas.txt");
         Loja.imprimirLojas(listaDeLojas);
         BruteForce.forcaBruta(listaDeLojas);
     }
