@@ -11,10 +11,10 @@ public class Consumo {
         int cargaAtual = 0;
         double consumoDeCarga = 0.0;
         double consumoDoCaminho = 0.0;
-        // double rendimento = 10;
+        double rendimento = 10;
 
         ArrayList<Integer> produtosColetados = new ArrayList<>();
-        permutacao.add(0);
+        // permutacao.add(0);
 
         for (int indexLoja : permutacao) {
             Loja lojaAtual = listaLoja.get(indexLoja);
@@ -28,13 +28,16 @@ public class Consumo {
             consumoDeCarga = cargaAtual * CONSUMO_POR_PRODUTO;
 
             double distancia = Math.sqrt(Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2));
-            // double consumoViagemAtual = distancia / rendimento;
-            // consumoDoCaminho += consumoViagemAtual;
+            double consumoViagemAtual = distancia / rendimento;
+            consumoDoCaminho += consumoViagemAtual;
             origemX = destinoX;
             origemY = destinoY;
-            // rendimento = 10 - consumoDeCarga
+            rendimento = 10 - consumoDeCarga;
             consumoDoCaminho += distancia;
         }
+
+        if(produtosColetados.size() != 0 || restouProdutos(listaLoja))
+            consumoDoCaminho = Double.MAX_VALUE;
 
         return consumoDoCaminho;
     }
@@ -57,6 +60,18 @@ public class Consumo {
             }
 
         return cargaAtual;
+    }
+
+    public static boolean restouProdutos(ArrayList<Loja> listaLoja) {
+        boolean restou = false;
+
+        for (Loja loja : listaLoja) {
+            if(loja.destinos.size() != 0) {
+                restou = true;
+            }
+        }
+
+        return restou;
     }
 
     public static boolean entradaInvalida(ArrayList<Loja> listaLoja) {
