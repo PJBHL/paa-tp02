@@ -7,7 +7,6 @@ public class Main {
         ArrayList<Loja> listaDeLojas;
         listaDeLojas = Loja.lerLojas("entradas/testePermu.txt");
         Loja.imprimirLojas(listaDeLojas);
-        ArrayList<ArrayList<Integer>> permutacoes = BruteForce.gerarPermutacoes(listaDeLojas);
-        BruteForce.imprimirPermutacoes(permutacoes);
+        BruteForce.forcaBruta(listaDeLojas);
     }
 }

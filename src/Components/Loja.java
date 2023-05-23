@@ -45,5 +45,6 @@ public class Loja {
         for (Loja loja : listaDeLojas) {
             System.out.println(loja.id + " " + loja.x + " " + loja.y + " " + loja.destinos);
         }
+        System.out.println("\n\n");
     }
 }
