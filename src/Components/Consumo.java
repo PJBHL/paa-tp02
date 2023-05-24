@@ -16,7 +16,7 @@ public class Consumo {
         int cargaAtual = 0;
         double consumoDeCarga = 0.0;
         double consumoDoCaminho = 0.0;
-        // double rendimento = 10;
+        double rendimento = 10;
 
         ArrayList<Integer> produtosColetados = new ArrayList<>();
         permutacao.add(0);
@@ -33,14 +33,13 @@ public class Consumo {
             consumoDeCarga = cargaAtual * CONSUMO_POR_PRODUTO;
 
             double distancia = Math.sqrt(Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2));
-            // double consumoViagemAtual = distancia / rendimento;
-            // consumoDoCaminho += consumoViagemAtual;
+            double consumoViagemAtual = distancia / rendimento;
+            consumoDoCaminho += consumoViagemAtual;
             origemX = destinoX;
             origemY = destinoY;
-            // rendimento = 10 - consumoDeCarga
+            rendimento = 10 - consumoDeCarga;
             consumoDoCaminho += distancia;
         }
-
         
         if(produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))
             consumoDoCaminho = Double.MAX_VALUE;
