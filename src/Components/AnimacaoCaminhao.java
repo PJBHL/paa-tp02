@@ -17,7 +17,7 @@ public class AnimacaoCaminhao extends JFrame {
     public AnimacaoCaminhao(ArrayList<Loja> listaLojas, ArrayList<Integer> permutacao) {
         this.listaLojas = listaLojas;
         this.permutacao = permutacao;
-        this.currentStoreIndex = -1; // Inicia em -1 para aguardar 1 segundo antes de exibir o caminho
+        this.currentStoreIndex = -1;
         this.currentConsumption = 0.0;
         this.currentProductCount = 0;
 
@@ -58,7 +58,8 @@ public class AnimacaoCaminhao extends JFrame {
             int y = loja.y;
 
             g.setColor(Color.BLACK);
-            g.drawOval(x - 10, y - 10, 20, 20);
+            g.fillOval(x - 10, y - 10, 20, 20);
+            g.setColor(Color.WHITE);
             g.drawString(Integer.toString(i), x - 4, y + 5);
         }
     }
@@ -105,10 +106,10 @@ public class AnimacaoCaminhao extends JFrame {
                 panel.repaint();
                 updateStatusLabel();
             } else {
-                ((Timer) e.getSource()).stop(); // Finaliza a animação quando todas as lojas foram visitadas
+                ((Timer) e.getSource()).stop();
             }
         });
-        timer.setInitialDelay(1000); // Espera 1 segundo antes de iniciar a animação
+        timer.setInitialDelay(1000);
         timer.start();
     }
 }
