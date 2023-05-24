@@ -2,7 +2,7 @@ package Components;
 import java.util.*;
 
 public class BruteForce {
-    public static List<Integer> melhorPermutacao;
+    public static ArrayList<Integer> melhorPermutacao;
     public static double menorConsumo;
 
 

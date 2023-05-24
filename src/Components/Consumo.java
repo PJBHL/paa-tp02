@@ -1,23 +1,25 @@
 package Components;
-
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class Consumo {
-    private static final int CAPACIDADE_CAMINHAO = 2;
-    private static final double CONSUMO_POR_PRODUTO = 0.5;
+    public static int k = 2; // Capacidade de produtos do caminhão.
+    public static final double CONSUMO_POR_PRODUTO = 0.5;
 
     public static double calcularConsumoAtual(ArrayList<Loja> listaLoja, ArrayList<Integer> permutacao) {
-        ArrayList<Loja> listaLojaCopy = Loja.clonarListaLoja(listaLoja);
+        ArrayList<Loja> listaLojaCopy = new ArrayList<>();
+        for (Loja loja : listaLoja) {
+            listaLojaCopy.add(new Loja(loja));
+        }
+        
+        int origemX = listaLoja.get(0).x;
+        int origemY = listaLoja.get(0).y;
         int cargaAtual = 0;
+        double consumoDeCarga = 0.0;
         double consumoDoCaminho = 0.0;
-        double rendimento = 10.0;
+        double rendimento = 10;
 
         ArrayList<Integer> produtosColetados = new ArrayList<>();
         permutacao.add(0);
-
-        int origemX = listaLoja.get(0).x;
-        int origemY = listaLoja.get(0).y;
 
         for (int indexLoja : permutacao) {
             Loja lojaAtual = listaLojaCopy.get(indexLoja);
@@ -25,63 +27,68 @@ public class Consumo {
             int destinoY = lojaAtual.y;
 
             cargaAtual = entregarProdutos(produtosColetados, lojaAtual, cargaAtual);
+            consumoDeCarga = cargaAtual * CONSUMO_POR_PRODUTO;
+
             cargaAtual = coletarProdutos(produtosColetados, lojaAtual, cargaAtual);
+            consumoDeCarga = cargaAtual * CONSUMO_POR_PRODUTO;
 
-            double distancia = calcularDistancia(destinoX, destinoY, origemX, origemY);
-            double consumoDeViagemAtual = distancia / rendimento;
-            consumoDoCaminho += consumoDeViagemAtual;
-
+            double distancia = Math.sqrt(Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2));
+            double consumoViagemAtual = distancia / rendimento;
+            consumoDoCaminho += consumoViagemAtual;
             origemX = destinoX;
             origemY = destinoY;
-
-            rendimento = 10.0 - (cargaAtual * CONSUMO_POR_PRODUTO);
+            rendimento = 10 - consumoDeCarga;
             consumoDoCaminho += distancia;
         }
-
-        if (produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))
+        
+        if(produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))
             consumoDoCaminho = Double.MAX_VALUE;
 
         return consumoDoCaminho;
     }
 
-    private static int entregarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeEntrega, int cargaAtual) {
-        if (listaDeProdutos.contains(lojaDeEntrega.id)) {
-            listaDeProdutos.removeAll(Collections.singleton(lojaDeEntrega.id));
-            cargaAtual = listaDeProdutos.size();
-        }
-        return cargaAtual;
-    }
-
-    private static int coletarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeColeta, int cargaAtual) {
-        if (cargaAtual < CAPACIDADE_CAMINHAO && !lojaDeColeta.destinos.isEmpty()) {
+    public static int coletarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeColeta, int cargaAtual) {
+        if(cargaAtual < k && (lojaDeColeta.destinos.size() != 0)) {
             for (int produtos : lojaDeColeta.destinos) {
                 listaDeProdutos.add(produtos);
-                cargaAtual++;
+                cargaAtual += 1;
             }
             lojaDeColeta.destinos.clear();
         }
+
         return cargaAtual;
     }
 
-    private static boolean restouProdutos(ArrayList<Loja> listaLoja) {
-        for (Loja loja : listaLoja) {
-            if (!loja.destinos.isEmpty()) {
-                return true;
+    public static int entregarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeEntrega, int cargaAtual) {
+        if(listaDeProdutos.contains(lojaDeEntrega.id)) {
+                listaDeProdutos.removeAll(Collections.singleton(lojaDeEntrega.id));
+                cargaAtual = listaDeProdutos.size();
             }
-        }
-        return false;
+
+        return cargaAtual;
     }
 
-    private static double calcularDistancia(int destinoX, int destinoY, int origemX, int origemY) {
-        return Math.sqrt(Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2));
+    public static boolean restouProdutos(ArrayList<Loja> listaLoja) {
+        boolean restou = false;
+
+        for (Loja loja : listaLoja) {
+            if(loja.destinos.size() != 0) {
+                restou = true;
+            }
+        }
+
+        return restou;
     }
 
     public static boolean entradaInvalida(ArrayList<Loja> listaLoja) {
+        boolean valido = true;
         for (Loja loja : listaLoja) {
-            if (loja.destinos.size() > CAPACIDADE_CAMINHAO) {
-                return false;
+            if (loja.destinos.size() > k) {
+                valido = false;
+                break;
             }
         }
-        return true;
+
+        return valido;
     }
 }
