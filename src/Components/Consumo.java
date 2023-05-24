@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Consumo {
-    private static final int CAPACIDADE_CAMINHAO = 2;
+    public static int CAPACIDADE_CAMINHAO;
     private static final double CONSUMO_POR_PRODUTO = 0.5;
 
     public static double calcularConsumoAtual(ArrayList<Loja> listaLoja, ArrayList<Integer> permutacao) {
@@ -52,7 +52,7 @@ public class Consumo {
     }
 
     public static int coletarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeColeta, int cargaAtual) {
-        if (cargaAtual < CAPACIDADE_CAMINHAO && !lojaDeColeta.destinos.isEmpty()) {
+        if (cargaAtual < CAPACIDADE_CAMINHAO && !lojaDeColeta.destinos.isEmpty() && lojaDeColeta.destinos.size() <= CAPACIDADE_CAMINHAO) {
             for (int produtos : lojaDeColeta.destinos) {
                 listaDeProdutos.add(produtos);
                 cargaAtual++;
