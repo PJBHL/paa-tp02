@@ -60,6 +60,18 @@ public class TelaInicial extends JFrame {
                     ArrayList<Integer> melhorPermutacao = BruteForce.getMelhorPermutacao();
                     double menorConsumo = BruteForce.getMenorConsumo();
                     System.out.println("Melhor permutacao: " + melhorPermutacao + " Seu consumo: " + menorConsumo);
+
+                    JFrame animacaoFrame = new JFrame("Animação do Caminhão");
+                    animacaoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    animacaoFrame.setSize(800, 600);
+                    animacaoFrame.setResizable(false);
+                    animacaoFrame.setLocationRelativeTo(null);
+
+                    AnimacaoCaminhao animacaoCaminhao = new AnimacaoCaminhao(listaDeLojas, melhorPermutacao);
+                    animacaoFrame.add(animacaoCaminhao);
+
+                    animacaoFrame.setVisible(true);
+
                 } catch (Exception ex) {
                     // Tratar a exceção de leitura do arquivo
                     System.out.println("Ocorreu um erro durante a leitura do arquivo: " + ex.getMessage());

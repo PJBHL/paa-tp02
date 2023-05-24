@@ -71,7 +71,7 @@ public class Consumo {
         return false;
     }
 
-    private static double calcularDistancia(int destinoX, int destinoY, int origemX, int origemY) {
+    public static double calcularDistancia(int destinoX, int destinoY, int origemX, int origemY) {
         return Math.sqrt(Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2));
     }
 
