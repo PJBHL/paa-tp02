@@ -66,6 +66,7 @@ public class BruteForce {
                 melhorPermutacao = permutacao;
             }
         }
+        
         System.out.println("Melhor permutação: " + melhorPermutacao + " Melhor consumo: " + menorConsumo);
     }
 }
