@@ -14,6 +14,13 @@ public class Loja {
         this.destinos = destinos;
     }
 
+    public Loja(Loja other) {
+        this.id = other.id;
+        this.x = other.x;
+        this.y = other.y;
+        this.destinos = new ArrayList<>(other.destinos);
+    }
+
     public static ArrayList<Loja> lerLojas(String fileName) throws Exception {
         FileReader file = new FileReader(fileName);
         BufferedReader rd = new BufferedReader(file);
