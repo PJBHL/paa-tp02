@@ -69,4 +69,12 @@ public class BruteForce {
         
         System.out.println("Melhor permutação: " + melhorPermutacao + " Melhor consumo: " + menorConsumo);
     }
+
+    public static ArrayList<Integer> getMelhorPermutacao() {
+        return new ArrayList<>(melhorPermutacao);
+    }
+    
+    public static double getMenorConsumo() {
+        return menorConsumo;
+    }
 }

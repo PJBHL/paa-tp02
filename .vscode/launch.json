@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TelaInicial",
+            "request": "launch",
+            "mainClass": "TelaInicial",
+            "projectName": "paa-tp02_7c64df11"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

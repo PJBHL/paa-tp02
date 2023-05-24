@@ -21,6 +21,14 @@ public class Loja {
         this.destinos = new ArrayList<>(other.destinos);
     }
 
+    public static ArrayList<Loja> clonarListaLoja(ArrayList<Loja> listaLoja) {
+        ArrayList<Loja> listaLojaCopy = new ArrayList<>();
+        for (Loja loja : listaLoja) {
+            listaLojaCopy.add(new Loja(loja));
+        }
+        return listaLojaCopy;
+    }
+
     public static ArrayList<Loja> lerLojas(String fileName) throws Exception {
         FileReader file = new FileReader(fileName);
         BufferedReader rd = new BufferedReader(file);

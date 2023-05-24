@@ -1,0 +1,73 @@
+// import javax.swing.*;
+// import java.awt.*;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
+// import java.io.File;
+
+// public class TelaInicial extends JFrame {
+//     private JButton btnSelecionarArquivo;
+//     private JTextField txtArquivo;
+//     private JLabel lblArquivo;
+//     private JLabel lblCapacidade;
+//     private JTextField txtCapacidade;
+//     private JButton btnIniciar;
+
+//     public TelaInicial() {
+//         setTitle("Seleção de Arquivo e Capacidade do Caminhão");
+//         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//         setLayout(new FlowLayout());
+//         setSize(400, 150);
+//         setResizable(false);
+
+//         lblArquivo = new JLabel("Arquivo:");
+//         txtArquivo = new JTextField(20);
+//         btnSelecionarArquivo = new JButton("Selecionar");
+//         lblCapacidade = new JLabel("Capacidade do Caminhão:");
+//         txtCapacidade = new JTextField(5);
+//         btnIniciar = new JButton("Iniciar");
+
+//         btnSelecionarArquivo.addActionListener(new ActionListener() {
+//             @Override
+//             public void actionPerformed(ActionEvent e) {
+//                 JFileChooser fileChooser = new JFileChooser();
+//                 int result = fileChooser.showOpenDialog(null);
+//                 if (result == JFileChooser.APPROVE_OPTION) {
+//                     File selectedFile = fileChooser.getSelectedFile();
+//                     txtArquivo.setText(selectedFile.getAbsolutePath());
+//                 }
+//             }
+//         });
+
+//         btnIniciar.addActionListener(new ActionListener() {
+//             @Override
+//             public void actionPerformed(ActionEvent e) {
+//                 String arquivo = txtArquivo.getText();
+//                 int capacidade = Integer.parseInt(txtCapacidade.getText());
+
+//                 // Aqui você pode chamar o método que realiza a lógica do algoritmo
+//                 // passando o arquivo selecionado e a capacidade do caminhão como parâmetros
+
+//                 // Exemplo:
+//                 // realizarAlgoritmo(arquivo, capacidade);
+//             }
+//         });
+
+//         add(lblArquivo);
+//         add(txtArquivo);
+//         add(btnSelecionarArquivo);
+//         add(lblCapacidade);
+//         add(txtCapacidade);
+//         add(btnIniciar);
+
+//         setVisible(true);
+//     }
+
+//     public static void main(String[] args) {
+//         SwingUtilities.invokeLater(new Runnable() {
+//             @Override
+//             public void run() {
+//                 new TelaInicial();
+//             }
+//         });
+//     }
+// }
