@@ -54,8 +54,11 @@ public class AnimacaoCaminhao extends JFrame {
 
         for (int i = 0; i < listaLojas.size(); i++) {
             Loja loja = listaLojas.get(i);
-            int x = loja.x;
-            int y = loja.y;
+            int x = loja.x * 2;
+            int y = loja.y * 2;
+
+            if(loja.y == 0)
+                loja.y = 50;
 
             g.setColor(Color.BLACK);
             g.fillOval(x - 10, y - 10, 20, 20);
@@ -71,7 +74,7 @@ public class AnimacaoCaminhao extends JFrame {
             Loja currentStore = listaLojas.get(permutacao.get(i));
             Loja nextStore = listaLojas.get(permutacao.get(i + 1));
 
-            g.drawLine(currentStore.x, currentStore.y, nextStore.x, nextStore.y);
+            g.drawLine(currentStore.x * 2, currentStore.y * 2, nextStore.x * 2, nextStore.y * 2);
         }
     }
 
@@ -86,7 +89,7 @@ public class AnimacaoCaminhao extends JFrame {
         int y = currentStore.y;
 
         g.setColor(Color.BLUE);
-        g.fillRect(x - 5, y - 5, 10, 10);
+        g.fillRect((x * 2) - 5, (y * 2) - 5, 10, 10);
     }
 
     private void updateStatusLabel() {
@@ -94,7 +97,7 @@ public class AnimacaoCaminhao extends JFrame {
     }
 
     private void startAnimation() {
-        Timer timer = new Timer(1000, e -> {
+        Timer timer = new Timer(3000, e -> {
             if (currentStoreIndex < listaLojas.size() - 1) {
                 currentStoreIndex++;
                 Loja currentStore = listaLojas.get(permutacao.get(currentStoreIndex));
