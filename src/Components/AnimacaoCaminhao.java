@@ -4,9 +4,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class AnimacaoCaminhao extends JFrame {
-
     private ArrayList<Loja> listaLojas;
     private ArrayList<Integer> permutacao;
+    public ArrayList<Loja> listaLojaCopy;
 
     private JPanel panel;
     private JLabel statusLabel;
@@ -17,14 +17,16 @@ public class AnimacaoCaminhao extends JFrame {
     public AnimacaoCaminhao(ArrayList<Loja> listaLojas, ArrayList<Integer> permutacao) {
         this.listaLojas = listaLojas;
         this.permutacao = permutacao;
-        this.currentStoreIndex = -1;
+        this.currentStoreIndex = 0;
         this.currentConsumption = 0.0;
         this.currentProductCount = 0;
+        listaLojaCopy = Loja.clonarListaLoja(listaLojas);
 
         setTitle("Animação do Caminhão");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        permutacao.add(0, 0);
 
         panel = new JPanel() {
             @Override
@@ -57,8 +59,11 @@ public class AnimacaoCaminhao extends JFrame {
             int x = loja.x * 2;
             int y = loja.y * 2;
 
-            if(loja.y == 0)
+            // Caso a coordenada da loja seja y = 0, sua vizualização ficaria prejudicada. (Isso não afeta os cálculos).
+            if(loja.x == 0 || loja.y == 0) {
+                loja.x = 100;
                 loja.y = 50;
+            }
 
             g.setColor(Color.BLACK);
             g.fillOval(x - 10, y - 10, 20, 20);
@@ -96,6 +101,10 @@ public class AnimacaoCaminhao extends JFrame {
         statusLabel.setText(String.format("Produtos: %d | Consumo: %.2f", currentProductCount, currentConsumption));
     }
 
+    private double showConsumo(ArrayList<Integer> subPermutacao) {
+
+    }
+
     private void startAnimation() {
         Timer timer = new Timer(3000, e -> {
             if (currentStoreIndex < listaLojas.size() - 1) {
@@ -104,7 +113,7 @@ public class AnimacaoCaminhao extends JFrame {
 
                 currentProductCount += 1;
                 ArrayList<Integer> novoCaminho = new ArrayList<Integer>(permutacao.subList(0, currentStoreIndex + 1));
-                currentConsumption = Consumo.calcularConsumoAtual(listaLojas, novoCaminho);
+                currentConsumption = Consumo.calcularConsumoAtual(listaLojaCopy, novoCaminho);
 
                 panel.repaint();
                 updateStatusLabel();

@@ -5,7 +5,6 @@ public class BruteForce {
     public static ArrayList<Integer> melhorPermutacao;
     public static double menorConsumo;
 
-
     /**
      * Metodo para pegar somente a lista de inteiros de uma lista de loja. Ou seja, os indices.
      * Útil para gerar as permutações começa em 1 porque a matriz é desconsiderada.
@@ -45,12 +44,6 @@ public class BruteForce {
         }
     }
 
-    public static void imprimirPermutacoes(ArrayList<ArrayList<Integer>> permutacoes) {
-        for (ArrayList<Integer> arrayList : permutacoes) {
-            System.out.println(arrayList);
-        }
-    }
-
     public static void forcaBruta(ArrayList<Loja> lojas) {
         melhorPermutacao = null;
         menorConsumo = Double.MAX_VALUE;
@@ -74,5 +67,11 @@ public class BruteForce {
     
     public static double getMenorConsumo() {
         return menorConsumo;
+    }
+
+    public static void imprimirPermutacoes(ArrayList<ArrayList<Integer>> permutacoes) {
+        for (ArrayList<Integer> arrayList : permutacoes) {
+            System.out.println(arrayList);
+        }
     }
 }

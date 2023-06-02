@@ -74,7 +74,7 @@ public class TelaInicial extends JFrame {
 
                 } catch (Exception ex) {
                     // Tratar a exceção de leitura do arquivo
-                    System.out.println("Ocorreu um erro durante a leitura do arquivo: " + ex.getMessage());
+                    System.out.println(ex.getMessage());
                 }
             }
         });
