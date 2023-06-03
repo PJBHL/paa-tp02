@@ -5,36 +5,72 @@ import java.util.Collections;
 public class Consumo {
     public static int CAPACIDADE_CAMINHAO;
     private static final double CONSUMO_POR_PRODUTO = 0.5;
+    public static int cargaAtual = 0;
 
-    public static double calcularConsumoAtual(ArrayList<Loja> listaLoja, ArrayList<Integer> permutacao) {
+    // public static double calcularConsumoAtual(ArrayList<Loja> listaLoja, ArrayList<Integer> permutacao) {
+    //     ArrayList<Loja> listaLojaCopy = Loja.clonarListaLoja(listaLoja);
+    //     int cargaAtual = 0;
+    //     double consumoDoCaminho = 0.0;
+    //     double rendimento = 10.0;
+
+    //     ArrayList<Integer> produtosColetados = new ArrayList<>();
+    //     permutacao.add(0);
+
+    //     int origemX = listaLoja.get(0).x;
+    //     int origemY = listaLoja.get(0).y;
+
+    //     for (int indexLoja : permutacao) {
+    //         Loja lojaAtual = listaLojaCopy.get(indexLoja);
+    //         int destinoX = lojaAtual.x;
+    //         int destinoY = lojaAtual.y;
+
+    //         cargaAtual = entregarProdutos(produtosColetados, lojaAtual, cargaAtual);
+    //         cargaAtual = coletarProdutos(produtosColetados, lojaAtual, cargaAtual);
+
+    //         double distancia = calcularDistancia(destinoX, destinoY, origemX, origemY);
+    //         double consumoDeViagemAtual = distancia / rendimento;
+    //         consumoDoCaminho += consumoDeViagemAtual;
+
+    //         origemX = destinoX;
+    //         origemY = destinoY;
+
+    //         rendimento = 10.0 - (cargaAtual * CONSUMO_POR_PRODUTO);
+    //         consumoDoCaminho += distancia;
+    //     }
+
+    //     if (produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))
+    //         consumoDoCaminho = Double.MAX_VALUE;
+
+    //     return consumoDoCaminho;
+    // }
+
+    public static double calcularConsumoCaminho(ArrayList<Loja> listaLoja, ArrayList<Integer> permutacao) {
         ArrayList<Loja> listaLojaCopy = Loja.clonarListaLoja(listaLoja);
-        int cargaAtual = 0;
         double consumoDoCaminho = 0.0;
         double rendimento = 10.0;
+        cargaAtual = 0;
 
         ArrayList<Integer> produtosColetados = new ArrayList<>();
+        // Adicionando origem e destino na permutação (matriz).
+        permutacao.add(0, 0);
         permutacao.add(0);
 
-        int origemX = listaLoja.get(0).x;
-        int origemY = listaLoja.get(0).y;
+        for(int indexLoja = 0; indexLoja < permutacao.size() - 1; indexLoja ++) {
+            Loja currentStore = listaLojaCopy.get(permutacao.get(indexLoja));
+            Loja nextStore = listaLojaCopy.get(permutacao.get(indexLoja + 1));
+            int origemX = currentStore.x;
+            int origemY = currentStore.y;
+            int destinoX = nextStore.x;
+            int destinoY = nextStore.y;
 
-        for (int indexLoja : permutacao) {
-            Loja lojaAtual = listaLojaCopy.get(indexLoja);
-            int destinoX = lojaAtual.x;
-            int destinoY = lojaAtual.y;
-
-            cargaAtual = entregarProdutos(produtosColetados, lojaAtual, cargaAtual);
-            cargaAtual = coletarProdutos(produtosColetados, lojaAtual, cargaAtual);
+            cargaAtual = entregarProdutos(produtosColetados, nextStore, cargaAtual);
+            cargaAtual = coletarProdutos(produtosColetados, nextStore, cargaAtual);
 
             double distancia = calcularDistancia(destinoX, destinoY, origemX, origemY);
             double consumoDeViagemAtual = distancia / rendimento;
-            consumoDoCaminho += consumoDeViagemAtual;
-
-            origemX = destinoX;
-            origemY = destinoY;
+            consumoDoCaminho += consumoDeViagemAtual + distancia;
 
             rendimento = 10.0 - (cargaAtual * CONSUMO_POR_PRODUTO);
-            consumoDoCaminho += distancia;
         }
 
         if (produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))

@@ -52,7 +52,7 @@ public class BruteForce {
 
         // Para cada permutacao, calcular o custo da viagem e descobrir qual a melhor.
         for (ArrayList<Integer> permutacao : permutacoes) {
-            double consumo = Consumo.calcularConsumoAtual(lojas, permutacao);
+            double consumo = Consumo.calcularConsumoCaminho(lojas, permutacao);
             // System.out.println("Permutação sendo observada no momento: " + permutacao + " Consumo dessa permutação: " + consumo);
             if(consumo < menorConsumo) {
                 menorConsumo = consumo;

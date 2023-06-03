@@ -20,7 +20,7 @@ public class AnimacaoCaminhao extends JFrame {
         this.currentStoreIndex = 0;
         this.currentConsumption = 0.0;
         this.currentProductCount = 0;
-        listaLojaCopy = Loja.clonarListaLoja(listaLojas);
+        // listaLojaCopy = Loja.clonarListaLoja(listaLojas);
 
         setTitle("Animação do Caminhão");
         setSize(800, 600);
@@ -101,10 +101,6 @@ public class AnimacaoCaminhao extends JFrame {
         statusLabel.setText(String.format("Produtos: %d | Consumo: %.2f", currentProductCount, currentConsumption));
     }
 
-    private double showConsumo(ArrayList<Integer> subPermutacao) {
-
-    }
-
     private void startAnimation() {
         Timer timer = new Timer(3000, e -> {
             if (currentStoreIndex < listaLojas.size() - 1) {
@@ -113,7 +109,7 @@ public class AnimacaoCaminhao extends JFrame {
 
                 currentProductCount += 1;
                 ArrayList<Integer> novoCaminho = new ArrayList<Integer>(permutacao.subList(0, currentStoreIndex + 1));
-                currentConsumption = Consumo.calcularConsumoAtual(listaLojaCopy, novoCaminho);
+                // currentConsumption = Consumo.calcularConsumoAtual(listaLojas, novoCaminho);
 
                 panel.repaint();
                 updateStatusLabel();
