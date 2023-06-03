@@ -6,8 +6,6 @@ public class Consumo {
     public static int CAPACIDADE_CAMINHAO;
     private static final double CONSUMO_POR_PRODUTO = 0.5;
     public static int cargaAtual = 0;
-    public static double showConsumo = 0.0;
-    public static int showProduto = 0;
 
     public static double calcularConsumoCaminho(ArrayList<Loja> listaLoja, ArrayList<Integer> permutacao) {
         ArrayList<Loja> listaLojaCopy = Loja.clonarListaLoja(listaLoja);

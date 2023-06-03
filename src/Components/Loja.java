@@ -29,6 +29,15 @@ public class Loja {
         return listaLojaCopy;
     }
 
+    public static ArrayList<Integer> getProductList(ArrayList<Loja> listaDeLojas) {
+        ArrayList<Integer> todosProdutos = new ArrayList<>();
+        for (Loja loja : listaDeLojas) {
+            todosProdutos.addAll(loja.destinos);
+        }
+
+        return todosProdutos;
+    }
+
     public static ArrayList<Loja> lerLojas(String fileName) throws Exception {
         FileReader file = new FileReader(fileName);
         BufferedReader rd = new BufferedReader(file);
