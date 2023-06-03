@@ -11,8 +11,8 @@ public class AnimacaoCaminhao extends JFrame {
     private JPanel panel;
     private JLabel statusLabel;
     private int currentStoreIndex;
-    private double currentConsumption;
-    private int currentProductCount;
+    public static double currentConsumption;
+    public static int currentProductCount;
 
     public AnimacaoCaminhao(ArrayList<Loja> listaLojas, ArrayList<Integer> permutacao) {
         this.listaLojas = listaLojas;
@@ -103,10 +103,9 @@ public class AnimacaoCaminhao extends JFrame {
         Timer timer = new Timer(3000, e -> {
             if (currentStoreIndex < listaLojas.size()) {
                 ArrayList<Integer> novoCaminho = new ArrayList<Integer>(permutacao.subList(0, currentStoreIndex + 1));
-                // System.out.println(novoCaminho);
-                Consumo.calcularConsumoCaminho(listaLojas, novoCaminho);
-                currentProductCount = Consumo.showProduto;
-                currentConsumption = Consumo.showConsumo;
+                novoCaminho.add(permutacao.get(currentStoreIndex + 1));
+                System.out.println(novoCaminho);
+                showConsumo(listaLojas, novoCaminho);
                 currentStoreIndex++;
                 
                 panel.repaint();
@@ -117,5 +116,33 @@ public class AnimacaoCaminhao extends JFrame {
         });
         timer.setInitialDelay(5000);
         timer.start();
+    }
+
+    private void showConsumo (ArrayList<Loja> listaLoja, ArrayList<Integer> melhorPermutacao) {
+        ArrayList<Loja> listaLojaCopy = Loja.clonarListaLoja(listaLoja);
+        currentConsumption = 0.0;
+        double rendimento = 10.0;
+        currentProductCount = 0;
+
+        ArrayList<Integer> produtosColetados = new ArrayList<>();
+
+        for(int indexLoja = 0; indexLoja < melhorPermutacao.size() - 1; indexLoja ++) {
+            Loja currentStore = listaLojaCopy.get(melhorPermutacao.get(indexLoja));
+            Loja nextStore = listaLojaCopy.get(melhorPermutacao.get(indexLoja + 1));
+            int origemX = currentStore.x;
+            int origemY = currentStore.y;
+            int destinoX = nextStore.x;
+            int destinoY = nextStore.y;
+
+            if(currentStore.id != 0) {
+                currentProductCount = Consumo.entregarProdutos(produtosColetados, currentStore, currentProductCount);
+                currentProductCount = Consumo.coletarProdutos(produtosColetados, currentStore, currentProductCount);
+                rendimento = 10.0 - (currentProductCount * 0.5);
+            }
+            
+            double distancia = Consumo.calcularDistancia(destinoX, destinoY, origemX, origemY);
+            double consumoDeViagemAtual = distancia / rendimento;
+            currentConsumption += consumoDeViagemAtual;
+        }
     }
 }

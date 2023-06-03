@@ -37,10 +37,6 @@ public class Consumo {
             double distancia = calcularDistancia(destinoX, destinoY, origemX, origemY);
             double consumoDeViagemAtual = distancia / rendimento;
             consumoDoCaminho += consumoDeViagemAtual;
-            
-            
-            showProduto = cargaAtual;
-            showConsumo = consumoDoCaminho;
         }
 
         if (produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))
