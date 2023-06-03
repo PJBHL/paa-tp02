@@ -20,13 +20,11 @@ public class AnimacaoCaminhao extends JFrame {
         this.currentStoreIndex = 0;
         this.currentConsumption = 0.0;
         this.currentProductCount = 0;
-        // listaLojaCopy = Loja.clonarListaLoja(listaLojas);
 
         setTitle("Animação do Caminhão");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        permutacao.add(0, 0);
 
         panel = new JPanel() {
             @Override
@@ -60,10 +58,10 @@ public class AnimacaoCaminhao extends JFrame {
             int y = loja.y * 2;
 
             // Caso a coordenada da loja seja y = 0, sua vizualização ficaria prejudicada. (Isso não afeta os cálculos).
-            if(loja.x == 0 || loja.y == 0) {
-                loja.x = 100;
-                loja.y = 50;
-            }
+            // if(loja.x == 0 || loja.y == 0) {
+            //     loja.x = 100;
+            //     loja.y = 50;
+            // }
 
             g.setColor(Color.BLACK);
             g.fillOval(x - 10, y - 10, 20, 20);
@@ -103,21 +101,21 @@ public class AnimacaoCaminhao extends JFrame {
 
     private void startAnimation() {
         Timer timer = new Timer(3000, e -> {
-            if (currentStoreIndex < listaLojas.size() - 1) {
-                currentStoreIndex++;
-                Loja currentStore = listaLojas.get(permutacao.get(currentStoreIndex));
-
-                currentProductCount += 1;
+            if (currentStoreIndex < listaLojas.size()) {
                 ArrayList<Integer> novoCaminho = new ArrayList<Integer>(permutacao.subList(0, currentStoreIndex + 1));
-                // currentConsumption = Consumo.calcularConsumoAtual(listaLojas, novoCaminho);
-
+                // System.out.println(novoCaminho);
+                Consumo.calcularConsumoCaminho(listaLojas, novoCaminho);
+                currentProductCount = Consumo.showProduto;
+                currentConsumption = Consumo.showConsumo;
+                currentStoreIndex++;
+                
                 panel.repaint();
                 updateStatusLabel();
             } else {
                 ((Timer) e.getSource()).stop();
             }
         });
-        timer.setInitialDelay(1000);
+        timer.setInitialDelay(5000);
         timer.start();
     }
 }

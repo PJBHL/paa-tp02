@@ -50,7 +50,14 @@ public class BruteForce {
 
         ArrayList<ArrayList<Integer>> permutacoes = gerarPermutacoes(lojas);
 
-        // Para cada permutacao, calcular o custo da viagem e descobrir qual a melhor.
+        // ArrayList<Integer> test = new ArrayList<>();
+        // test.add(1);
+        // test.add(2);
+        // test.add(3);
+        // test.add(4);
+        // test.add(5);
+        // double consumo = Consumo.calcularConsumoCaminho(lojas, test);
+        // // Para cada permutacao, calcular o custo da viagem e descobrir qual a melhor.
         for (ArrayList<Integer> permutacao : permutacoes) {
             double consumo = Consumo.calcularConsumoCaminho(lojas, permutacao);
             // System.out.println("Permutação sendo observada no momento: " + permutacao + " Consumo dessa permutação: " + consumo);
