@@ -65,6 +65,15 @@ public class Loja {
         return listaDeLojas;
     }
 
+    public static boolean restouProdutos(ArrayList<Loja> listaLoja) {
+        for (Loja loja : listaLoja) {
+            if (!loja.destinos.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void imprimirLojas(ArrayList<Loja> listaDeLojas) {
         for (Loja loja : listaDeLojas) {
             System.out.println(loja.id + " " + loja.x + " " + loja.y + " " + loja.destinos);

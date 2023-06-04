@@ -37,7 +37,7 @@ public class Consumo {
             consumoDoCaminho += consumoDeViagemAtual;
         }
 
-        if (produtosColetados.size() != 0 || restouProdutos(listaLojaCopy))
+        if (produtosColetados.size() != 0 || Loja.restouProdutos(listaLojaCopy))
             consumoDoCaminho = Double.MAX_VALUE;
 
         return consumoDoCaminho;
@@ -63,15 +63,6 @@ public class Consumo {
             }
         }
         return cargaAtual;
-    }
-
-    public static boolean restouProdutos(ArrayList<Loja> listaLoja) {
-        for (Loja loja : listaLoja) {
-            if (!loja.destinos.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static double calcularDistancia(int destinoX, int destinoY, int origemX, int origemY) {

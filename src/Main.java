@@ -10,11 +10,15 @@ public class Main {
         //         new TelaInicial();
         //     }
         // });
-        ArrayList<Integer> solucao = new ArrayList<>();
-        BranchAndBound.listaDeLojas = Loja.lerLojas("entradas/teste1.txt");
-        BranchAndBound.produtos = Loja.getProductList(BranchAndBound.listaDeLojas);
-        BranchAndBound.N = BranchAndBound.listaDeLojas.size();
-        BranchAndBound.listaLojaCopy = Loja.clonarListaLoja(BranchAndBound.listaDeLojas);
-        BranchAndBound.branchAndBound(solucao, 0, 0, 0);
+        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/teste1.txt");
+
+        ArrayList<Integer> melhorCaminho = bnb.encontrarMelhorPermutacao(listaDeLojas);
+
+        if (melhorCaminho != null) {
+            System.out.println("Melhor caminho encontrado: " + melhorCaminho);
+            System.out.println("Menor consumo: " + BranchAndBound.menorConsumo);
+        } else {
+            System.out.println("Nenhum caminho válido encontrado.");
+        }
     }
 }
