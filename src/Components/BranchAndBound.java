@@ -11,16 +11,20 @@ public class BranchAndBound {
     public static ArrayList<Integer> produtosColetados = new ArrayList<>();
     public static int cargaAtual = 0;
     public static double rendimento = 10.0;
+    public static ArrayList<Integer> coletado = new ArrayList<>();
+    public static ArrayList<Integer> entregues = new ArrayList<>();
+    public static ArrayList<Loja> listaDeLojas = new ArrayList<>();
+    public static ArrayList<Loja> listaLojaCopy = new ArrayList<>();
     
-    public static void branchAndBound(ArrayList<Loja> listaDeLojas, ArrayList<Integer> solucao, int index, double consumoAtual, double lb) {
-        if(index > N - 1) {
+    public static void branchAndBound(ArrayList<Integer> solucao, int index, double consumoAtual, double lb) {
+        if(index == N - 1) {
             if(consumoAtual < menorConsumo && !Consumo.restouProdutos(listaDeLojas)) {
                 consumoAtual = menorConsumo;
                 melhorSolucao = solucao;
             }
         } else {
-            Loja currentStore = listaDeLojas.get(index);
-            Loja nextStore = listaDeLojas.get(index + 1);
+            Loja currentStore = listaLojaCopy.get(index);
+            Loja nextStore = listaLojaCopy.get(index + 1);
             int origemX = currentStore.x;
             int origemY = currentStore.y;
             int destinoX = nextStore.x;
@@ -29,38 +33,42 @@ public class BranchAndBound {
                 solucao.add(currentStore.id);
 
                 if(currentStore.id != 0) {
-                    cargaAtual = entregarProdutos(produtosColetados, currentStore, cargaAtual);
-                    cargaAtual = coletarProdutos(produtosColetados, currentStore, cargaAtual);
+                    entregues = entregarProdutos(produtosColetados, currentStore);
+                    coletado = coletarProdutos(produtosColetados, currentStore);
                     rendimento = 10.0 - (cargaAtual * CONSUMO_POR_PRODUTO);
                 }
 
                 double distancia = Consumo.calcularDistancia(destinoX, destinoY, origemX, origemY);
                 consumoAtual = distancia / rendimento;
                 if(consumoAtual < menorConsumo && currentStore.destinos.isEmpty())
-                    branchAndBound(listaDeLojas, solucao, index + 1, consumoAtual, lb);
-                solucao.remove(index);
+                    branchAndBound(solucao, index + 1, consumoAtual, lb);
+                solucao.remove(solucao.indexOf(index));
             }
             double distancia = Consumo.calcularDistancia(destinoX, destinoY, origemX, origemY);
             consumoAtual = distancia / rendimento;
             if(consumoAtual < menorConsumo && nextStore.destinos.isEmpty())
-                branchAndBound(listaDeLojas, solucao, index + 1, consumoAtual, lb);
+                branchAndBound(solucao, index + 1, consumoAtual, lb);
         }
         System.out.println(solucao);
     }
 
-    public static int entregarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeEntrega, int cargaAtual) {
+    public static ArrayList<Integer> entregarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeEntrega) {
+        ArrayList<Integer> produtosEntregues = new ArrayList<>();
         if (listaDeProdutos.contains(lojaDeEntrega.id)) {
             listaDeProdutos.removeAll(Collections.singleton(lojaDeEntrega.id));
+            produtosEntregues.add(lojaDeEntrega.id);
             cargaAtual = listaDeProdutos.size();
         }
-        return cargaAtual;
+        return produtosEntregues;
     }
 
-    public static int coletarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeColeta, int cargaAtual) {
+    public static ArrayList<Integer> coletarProdutos(ArrayList<Integer> listaDeProdutos, Loja lojaDeColeta) {
+        ArrayList<Integer> produtosColetados = new ArrayList<>();
         if (!lojaDeColeta.destinos.isEmpty()) {
             for (int i = 0; i < lojaDeColeta.destinos.size(); i++) {
                 if(cargaAtual < CAPACIDADE_CAMINHAO) {
                     listaDeProdutos.add(lojaDeColeta.destinos.get(i));
+                    produtosColetados.add(lojaDeColeta.destinos.get(i));
                     lojaDeColeta.destinos.remove(i);
                     produtos.remove(i);
                     i--;
@@ -68,6 +76,13 @@ public class BranchAndBound {
                 }
             }
         }
-        return cargaAtual;
+        return produtosColetados;
+    }
+
+    public static void devolverProduto(ArrayList<Integer> x, ArrayList<Integer> y, Loja lojaDevolucao) {
+        lojaDevolucao.destinos.addAll(x);
+        y.remove(0);
+        produtos.addAll(x);
+        produtosColetados.removeAll(x);
     }
 }

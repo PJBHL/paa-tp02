@@ -10,12 +10,11 @@ public class Main {
         //         new TelaInicial();
         //     }
         // });
-        ArrayList<Loja> listaDeLojas = new ArrayList<>();
-        listaDeLojas = Loja.lerLojas("entradas/teste1.txt");
-        System.out.println(Loja.getProductList(listaDeLojas));
-        BranchAndBound.N = listaDeLojas.size();
-        BranchAndBound.produtos = Loja.getProductList(listaDeLojas);
         ArrayList<Integer> solucao = new ArrayList<>();
-        BranchAndBound.branchAndBound(listaDeLojas, solucao, 0, 0, 0);
+        BranchAndBound.listaDeLojas = Loja.lerLojas("entradas/teste1.txt");
+        BranchAndBound.produtos = Loja.getProductList(BranchAndBound.listaDeLojas);
+        BranchAndBound.N = BranchAndBound.listaDeLojas.size();
+        BranchAndBound.listaLojaCopy = Loja.clonarListaLoja(BranchAndBound.listaDeLojas);
+        BranchAndBound.branchAndBound(solucao, 0, 0, 0);
     }
 }

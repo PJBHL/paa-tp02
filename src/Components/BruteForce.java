@@ -65,7 +65,7 @@ public class BruteForce {
                 menorConsumo = consumo;
                 melhorPermutacao = permutacao;
             }
-        }        
+        }
     }
 
     public static ArrayList<Integer> getMelhorPermutacao() {
