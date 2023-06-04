@@ -24,7 +24,7 @@ public class bnb {
         entregaIndex = new ArrayList<>();
         coletaIndex = new ArrayList<>();
         
-        // permutacaoAtual.add(0);
+        permutacaoAtual.add(0);
         for(int i = 0; i < listaLojas.size(); i++)
             lojasDisponiveis.add(i);
 
