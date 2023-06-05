@@ -7,7 +7,7 @@ public class bnb {
     public static double menorConsumo;
     // Caminhão:
     public static ArrayList<Integer> caminhao;
-    public static int capacidadeCaminhao = 3;
+    public static int capacidadeCaminhao = 2;
     public static double rendimento = 10.0;
     public static int cargaAtual;
 
@@ -50,8 +50,8 @@ public class bnb {
                 menorConsumo = consumoAtual;
                 melhorPermutacao = new ArrayList<>(permutacaoAtual);
                 // System.out.println(melhorPermutacao);
-                System.out.printf("Truck r: %.4f", consumoAtual);
-                System.out.println(" " + melhorPermutacao);
+                // System.out.printf("Truck r: %.4f", consumoAtual);
+                // System.out.println(" " + melhorPermutacao);
                 return melhorPermutacao;
             }
         } else {
@@ -100,6 +100,7 @@ public class bnb {
                         
                         // devolverProdutos(previousStore, todosProdutos, i, entregaIndex, entregaIndex);
                         // entregaIndex = entregarProdutos(caminhao, currentStore);
+                        // Calculo de rendimento Inutil.
                         rendimento = 10.0 - (cargaAtual * 0.5);
                     } else {
                         consumoAtual -= consumoDeViagemAtual;

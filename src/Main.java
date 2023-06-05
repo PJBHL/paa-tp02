@@ -10,9 +10,13 @@ public class Main {
         //         new TelaInicial();
         //     }
         // });
-        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/15.txt");
+        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/lojas3.txt");
 
+        long start = System.currentTimeMillis();
         ArrayList<Integer> melhorCaminho = bnb.encontrarMelhorPermutacao(listaDeLojas);
+        long end = System.currentTimeMillis();
+
+        System.out.println("Tempo em (ms): " + (end - start));
 
         if (melhorCaminho != null) {
             System.out.println("Melhor caminho encontrado: " + melhorCaminho);
