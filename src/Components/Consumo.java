@@ -65,7 +65,7 @@ public class Consumo {
         return cargaAtual;
     }
 
-    public static double calcularDistancia(int destinoX, int destinoY, int origemX, int origemY) {
+    public static double calcularDistancia(double destinoX, double destinoY, double origemX, double origemY) {
         return Math.sqrt(Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2));
     }
 
