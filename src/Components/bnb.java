@@ -72,19 +72,16 @@ public class bnb {
                         // lojasDisponiveis.remove(i);
                         branchNbound(listaLojas, permutacaoAtual, lojasDisponiveis, consumoAtual, i);
                         consumoAtual -= consumoDeViagemAtual;
-                        entregaIndex = entregarProdutos(caminhao, currentStore);
-                        rendimento = 10.0 - (cargaAtual * 0.5);
                         // Devolver entregaIndex loja anterior também.
                         devolverProdutos(currentStore, todosProdutos, i, coletaIndex, entregaIndex);
+                        entregaIndex = entregarProdutos(caminhao, currentStore);
+                        rendimento = 10.0 - (cargaAtual * 0.5);
                     } else {
                         consumoAtual -= consumoDeViagemAtual;
                         // Devolver ao caminhão também.
                         caminhao.addAll(entregaIndex);
                         continue;
                     }
-
-                    // lojasDisponiveis.add(0 ,currentStore.id);
-                    // permutacaoAtual.remove(currentStore.id);
                 }
             }
         }

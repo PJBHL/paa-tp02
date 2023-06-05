@@ -10,7 +10,7 @@ public class Main {
         //         new TelaInicial();
         //     }
         // });
-        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/teste1.txt");
+        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/lojas.txt");
 
         ArrayList<Integer> melhorCaminho = bnb.encontrarMelhorPermutacao(listaDeLojas);
 
