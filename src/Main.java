@@ -16,7 +16,7 @@ public class Main {
 
         if (melhorCaminho != null) {
             System.out.println("Melhor caminho encontrado: " + melhorCaminho);
-            System.out.println("Menor consumo: " + BranchAndBound.menorConsumo);
+            System.out.println("Menor consumo: " + bnb.menorConsumo);
         } else {
             System.out.println("Nenhum caminho válido encontrado.");
         }
