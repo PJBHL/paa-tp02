@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Consumo {
-    public static int CAPACIDADE_CAMINHAO;
+    public static int CAPACIDADE_CAMINHAO = 2;
     private static final double CONSUMO_POR_PRODUTO = 0.5;
     public static int cargaAtual = 0;
 
@@ -21,10 +21,6 @@ public class Consumo {
         for(int indexLoja = 0; indexLoja < permutacao.size() - 1; indexLoja ++) {
             Loja currentStore = listaLojaCopy.get(permutacao.get(indexLoja));
             Loja nextStore = listaLojaCopy.get(permutacao.get(indexLoja + 1));
-            int origemX = currentStore.x;
-            int origemY = currentStore.y;
-            int destinoX = nextStore.x;
-            int destinoY = nextStore.y;
 
             if(currentStore.id != 0) {
                 cargaAtual = entregarProdutos(produtosColetados, currentStore, cargaAtual);
@@ -32,9 +28,10 @@ public class Consumo {
                 rendimento = 10.0 - (cargaAtual * CONSUMO_POR_PRODUTO);
             }
             
-            double distancia = calcularDistancia(destinoX, destinoY, origemX, origemY);
+            double distancia = calcularDistancia(nextStore.x, nextStore.y, currentStore.x, currentStore.y);
             double consumoDeViagemAtual = distancia / rendimento;
             consumoDoCaminho += consumoDeViagemAtual;
+            System.out.println("distancia: " + distancia + " | ConsumoDeViagem: " + consumoDeViagemAtual + " | Rendimento: " + rendimento + " Consumo do caminho: " + consumoDoCaminho);
         }
 
         if (produtosColetados.size() != 0 || Loja.restouProdutos(listaLojaCopy))

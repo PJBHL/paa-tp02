@@ -10,7 +10,7 @@ public class Main {
         //         new TelaInicial();
         //     }
         // });
-        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/lojas.txt");
+        ArrayList<Loja> listaDeLojas = Loja.lerLojas("entradas/teste1.txt");
 
         ArrayList<Integer> melhorCaminho = bnb.encontrarMelhorPermutacao(listaDeLojas);
 
@@ -20,5 +20,12 @@ public class Main {
         } else {
             System.out.println("Nenhum caminho válido encontrado.");
         }
+        // ArrayList<Integer> testPermu = new ArrayList<>();
+        // testPermu.add(1);
+        // testPermu.add(3);
+        // testPermu.add(2);
+        // testPermu.add(5);
+        // testPermu.add(4);
+        // System.out.println(Consumo.calcularConsumoCaminho(listaDeLojas, testPermu));
     }
 }
