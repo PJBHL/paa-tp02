@@ -31,7 +31,6 @@ public class Consumo {
             double distancia = calcularDistancia(nextStore.x, nextStore.y, currentStore.x, currentStore.y);
             double consumoDeViagemAtual = distancia / rendimento;
             consumoDoCaminho += consumoDeViagemAtual;
-            System.out.println("distancia: " + distancia + " | ConsumoDeViagem: " + consumoDeViagemAtual + " | Rendimento: " + rendimento + " Consumo do caminho: " + consumoDoCaminho);
         }
 
         if (produtosColetados.size() != 0 || Loja.restouProdutos(listaLojaCopy))

@@ -7,7 +7,7 @@ public class bnb {
     public static double menorConsumo;
     // Caminhão:
     public static ArrayList<Integer> caminhao;
-    public static int capacidadeCaminhao = 2;
+    public static int capacidadeCaminhao = 3;
     public static double rendimento = 10.0;
     public static int cargaAtual;
 
@@ -50,7 +50,8 @@ public class bnb {
                 menorConsumo = consumoAtual;
                 melhorPermutacao = new ArrayList<>(permutacaoAtual);
                 // System.out.println(melhorPermutacao);
-                System.out.println("distancia: " + distancia + " | ConsumoDeViagem: " + consumoDeViagemAtual + " | Rendimento: " + rendimento + " Consumo do caminho: " + consumoAtual);
+                System.out.printf("Truck r: %.4f", consumoAtual);
+                System.out.println(" " + melhorPermutacao);
                 return melhorPermutacao;
             }
         } else {
@@ -61,30 +62,41 @@ public class bnb {
                 // permutacaoAtual.get(permutacaoAtual.size() - 1);
                 // Verifica se a loja atual está na lista de destinos.
                 Loja previousStore = listaLojas.get(permutacaoAtual.get(contador));
-                if(!todosProdutos.contains(currentStore.id)) {
+                if(!todosProdutos.contains(previousStore.id)) {
                     rendimento = 10.0 - (cargaAtual * 0.5);
-                    double distancia = Consumo.calcularDistancia(previousStore.x, previousStore.y, currentStore.x, currentStore.y);
+                    int origemX = currentStore.x;
+                    int destinoX = previousStore.x;
+                    int origemY = currentStore.y;
+                    int destinoY = previousStore.y;
+                    double distancia = Consumo.calcularDistancia(destinoX, destinoY, origemX, origemY);
                     double consumoDeViagemAtual = distancia / rendimento;
                     consumoAtual += consumoDeViagemAtual;
-                    System.out.println("distancia: " + distancia + " | ConsumoDeViagem: " + consumoDeViagemAtual + " | Rendimento: " + rendimento + " Consumo do caminho: " + consumoAtual);
+                    // System.out.println("distancia: " + distancia + " | ConsumoDeViagem: " + consumoDeViagemAtual + " | Rendimento: " + rendimento + " Consumo do caminho: " + consumoAtual);
                     
                     entregaIndex = entregarProdutos(caminhao, currentStore);
-                    if(consumoAtual < menorConsumo && (currentStore.destinos.size() + caminhao.size()) <= capacidadeCaminhao) {
+                    if(consumoAtual < menorConsumo && ((currentStore.destinos.size() + caminhao.size()) <= capacidadeCaminhao)) {
                         coletaIndex = coletarProdutos(caminhao, currentStore);
                         permutacaoAtual.add(lojaAtual);
                         lojasDisponiveis.remove(i);
                         branchNbound(listaLojas, permutacaoAtual, lojasDisponiveis, consumoAtual, contador + 1);
                         // Iniciar back tracking.
+                        // Diminuir consumo calculado. (consumoAtual += consumoDeViagemAtual;).
+                        
                         consumoAtual -= consumoDeViagemAtual;
-                        // Devolver entregaIndex loja anterior também.
+                        // Adiciona produtos ao caminhao. (entregaIndex = entregarProdutos(caminhao, currentStore);).
+                        // Remove do caminhao, adiciona a todos produtos, coloca de volta na loja de coleta (coletaIndex = coletarProdutos(caminhao, currentStore);).
+                        // Remove da permutacaoAtual (permutacaoAtual.add(lojaAtual);).
                         permutacaoAtual.remove(contador + 1);
                         lojasDisponiveis.add(0, currentStore.id);
+                        // Adiciona as lojasDisponiveis novamente. (lojasDisponiveis.remove(i);).
+                        // 0 1 3 2 5 4
+                        caminhao.addAll(entregaIndex);
+                        devolverProdutos(currentStore, coletaIndex);
                         // permutacaoAtual.remove(permutacaoAtual.indexOf(currentStore.id));
                         // todosProdutos.addAll(entregaIndex);
                         // retornar produtos para loja / remover do caminhão.
                         
-                        caminhao.addAll(entregaIndex);
-                        cargaAtual = caminhao.size();
+                        
                         
                         // devolverProdutos(previousStore, todosProdutos, i, entregaIndex, entregaIndex);
                         // entregaIndex = entregarProdutos(caminhao, currentStore);
@@ -131,12 +143,11 @@ public class bnb {
         return coletados;
     }
 
-    public static void devolverProdutos(Loja devolverLoja, ArrayList<Integer> devolverProduto, int i, ArrayList<Integer> coleta, ArrayList<Integer> entrega) {
-        // Mudar depois para devolver todos os produtos. (foda-se a ordem dos destinos).
-        // devolverLoja.destinos.addAll(coleta);
-        // todosProdutos.addAll(entrega);
-        caminhao.addAll(entrega);
-        // caminhao.removeAll(coleta);
+    public static void devolverProdutos(Loja devolverLoja, ArrayList<Integer> produtos) {
+        // Mudar depois para devolver todos os produtos. (foda-se a ordem dos destinos)
+        devolverLoja.destinos.addAll(produtos);
+        todosProdutos.addAll(produtos);
+        caminhao.removeAll(produtos);
         cargaAtual = caminhao.size();
     }
 }
