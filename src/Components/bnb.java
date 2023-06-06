@@ -7,7 +7,7 @@ public class bnb {
     public static double menorConsumo;
     // Caminhão:
     public static ArrayList<Integer> caminhao;
-    public static int capacidadeCaminhao = 2;
+    public static int capacidadeCaminhao = 3;
     public static double rendimento = 10.0;
     public static int cargaAtual;
 
@@ -42,7 +42,7 @@ public class bnb {
             int origemY = listaLojas.get(permutacaoAtual.get(permutacaoAtual.size() - 1)).y;
             int destinoX = listaLojas.get(permutacaoAtual.get(0)).x;
             int destinoY = listaLojas.get(permutacaoAtual.get(0)).y;
-            rendimento = 10.0 - (cargaAtual * 0.5);
+            // rendimento = 10.0 - (cargaAtual * 0.5);
             double distancia = Consumo.calcularDistancia(destinoX, destinoY, origemX, origemY);
             double consumoDeViagemAtual = distancia / rendimento;
             consumoAtual += consumoDeViagemAtual;
@@ -63,7 +63,7 @@ public class bnb {
                 // Verifica se a loja atual está na lista de destinos.
                 Loja previousStore = listaLojas.get(permutacaoAtual.get(contador));
                 if(!todosProdutos.contains(previousStore.id)) {
-                    rendimento = 10.0 - (cargaAtual * 0.5);
+                    // rendimento = 10.0 - (cargaAtual * 0.5);
                     int origemX = currentStore.x;
                     int destinoX = previousStore.x;
                     int origemY = currentStore.y;
@@ -74,8 +74,10 @@ public class bnb {
                     // System.out.println("distancia: " + distancia + " | ConsumoDeViagem: " + consumoDeViagemAtual + " | Rendimento: " + rendimento + " Consumo do caminho: " + consumoAtual);
                     
                     entregaIndex = entregarProdutos(caminhao, currentStore);
+                    rendimento = 10.0 - (cargaAtual * 0.5);
                     if(consumoAtual < menorConsumo && ((currentStore.destinos.size() + caminhao.size()) <= capacidadeCaminhao)) {
                         coletaIndex = coletarProdutos(caminhao, currentStore);
+                        rendimento = 10.0 - (cargaAtual * 0.5);
                         permutacaoAtual.add(lojaAtual);
                         lojasDisponiveis.remove(i);
                         branchNbound(listaLojas, permutacaoAtual, lojasDisponiveis, consumoAtual, contador + 1);
@@ -107,7 +109,7 @@ public class bnb {
                         // Devolver ao caminhão também.
                         caminhao.addAll(entregaIndex);
                         cargaAtual = caminhao.size();
-                        rendimento = 10.0 - (cargaAtual * 0.5);
+                        // rendimento = 10.0 - (cargaAtual * 0.5);
                     }
                 }
             }
