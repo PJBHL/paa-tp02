@@ -1,71 +1,107 @@
 package Components;
 import java.util.*;
 
+/** 
+ * Classe responsável por gerar as permutações possíveis (n - 1)!
+ * A loja matriz é excluída da lista de permutações, já que é inevitávelmente de lá que o caminhão sai.
+ */
 public class BruteForce {
+    // Guardar a melhor solução.
     public static ArrayList<Integer> melhorPermutacao;
     public static double menorConsumo;
 
     /**
-     * Metodo para pegar somente a lista de inteiros de uma lista de loja. Ou seja, os indices.
-     * Útil para gerar as permutações começa em 1 porque a matriz é desconsiderada.
-     * @param lojas
-     * @return
-     */
-    public static ArrayList<Integer> getList(ArrayList<Loja> lojas) {
-        ArrayList<Integer> indexList = new ArrayList<>();
-        
-        for(int i = 1; i < lojas.size(); i++)
-            indexList.add(i);
-
-        return indexList;
-    }
-
-    /**
-     * Metodo para gerar a lista de permutações possíveis das lojas.
+     * Método para gerar todas as permutações (caminhos) possíveis da lista de lojas.
+     * @param lojas - lista de lojas.
+     * @return - uma lista onde cada index é uma permutação.
      */
     public static ArrayList<ArrayList<Integer>> gerarPermutacoes(ArrayList<Loja> lojas) {
         ArrayList<ArrayList<Integer>> permutacoes = new ArrayList<>();
-        ArrayList<Integer> getIndex = getList(lojas);
+        ArrayList<Integer> index = Loja.getStoreList(lojas);
 
-        permutacoes(getIndex, 0, permutacoes);
+        permutacoes(index, 0, permutacoes);
 
         return permutacoes;
     }
 
-    public static void permutacoes(ArrayList<Integer> elemento, int index, ArrayList<ArrayList<Integer>> permutacoes) {
-        if(index == elemento.size() - 1)
-            permutacoes.add(new ArrayList<>(elemento));
+    /**
+     * Método recursivo para geração das permutações.
+     * Baseado na troca de elementos e index passado por parametro.
+     * @param permutacao - permutacao i.
+     * @param index - index para troca de elementos de forma recursiva.
+     * @param todasPermutacoes - salva neste parâmetro a lista onde cada index é uma permutacao.
+     */
+    public static void permutacoes(ArrayList<Integer> permutacao, int index, ArrayList<ArrayList<Integer>> todasPermutacoes) {
+        // Condição de parada. Chegar aqui significa que uma permutacao foi gerada.
+        if(index == permutacao.size() - 1)
+            todasPermutacoes.add(new ArrayList<>(permutacao));
         else {
-            for(int i = index; i < elemento.size(); i++) {
-                Collections.swap(elemento, index, i);
-                permutacoes(elemento, index + 1, permutacoes);
-                Collections.swap(elemento, index, i);
+            for(int i = index; i < permutacao.size(); i++) {
+                Collections.swap(permutacao, index, i);
+                permutacoes(permutacao, index + 1, todasPermutacoes);
+                Collections.swap(permutacao, index, i);
             }
         }
     }
 
+    /**
+     * Método de força bruta para encontrar o melhor caminho (válido) dentre todas as permutações possíveis.
+     * Não é inteligente, isto é, avalia permutações que também não são válidas por natureza.
+     * Guarda o valor do consumo e da permutação caso sejam válidos e continua comparando até encontrar o melhor.
+     * @param lojas - lista de lojas para encontrar o melhor caminho.
+     */
     public static void forcaBruta(ArrayList<Loja> lojas) {
         melhorPermutacao = null;
         menorConsumo = Double.MAX_VALUE;
 
         ArrayList<ArrayList<Integer>> permutacoes = gerarPermutacoes(lojas);
 
-        // ArrayList<Integer> test = new ArrayList<>();
-        // test.add(1);
-        // test.add(2);
-        // test.add(3);
-        // test.add(4);
-        // test.add(5);
-        // double consumo = Consumo.calcularConsumoCaminho(lojas, test);
-        // // Para cada permutacao, calcular o custo da viagem e descobrir qual a melhor.
         for (ArrayList<Integer> permutacao : permutacoes) {
-            double consumo = Consumo.calcularConsumoCaminho(lojas, permutacao);
-            // System.out.println("Permutação sendo observada no momento: " + permutacao + " Consumo dessa permutação: " + consumo);
+            double consumo = calcularConsumoPermutacao(lojas, permutacao);
             if(consumo < menorConsumo) {
                 menorConsumo = consumo;
                 melhorPermutacao = permutacao;
             }
         }
+    }
+
+    /**
+     * Calcula o consumo de uma permutacao específica e verifica se é válida ou não.
+     * @param listaLoja - lista de lojas para calculos de distância.
+     * @param caminho - permutacao de calculo.
+     * @return - consumo cálculado. Infinito caso inválido.
+     */
+    public static double calcularConsumoPermutacao(ArrayList<Loja> listaLoja, ArrayList<Integer> caminho) {
+        // Clonar para não danificar lista para cálculo de outras permutações.
+        ArrayList<Loja> listaLojaCopy = Loja.clonarListaLoja(listaLoja);
+        double consumoDaPermutacao = 0.0;
+        Caminhao caminhao = new Caminhao();
+        double rendimento = 10.0; // rendimento começa com 10.
+
+        // Adicinando origem e destino na permutacao (matriz).
+        caminho.add(0, 0);
+        caminho.add(0);
+
+        for(int indexLoja = 0; indexLoja < caminho.size() - 1; indexLoja++) {
+            Loja currentStore = listaLojaCopy.get(caminho.get(indexLoja));
+            Loja nextStore = listaLojaCopy.get(caminho.get(indexLoja + 1));
+            
+            // Tenta entregar primeiro para depois coletar possíveis produtos e atualiza rendimento.
+            Caminhao.entregarProdutos(currentStore, caminhao);
+            Caminhao.coletarProdutos(currentStore, caminhao);
+            rendimento = Caminhao.getRendimento();
+
+            // Calculo de distancia 
+            double distancia = Caminhao.calcularDistancia(currentStore, nextStore);
+            double consumoDeTrajeto = distancia / rendimento;
+            consumoDaPermutacao += consumoDeTrajeto;
+        }
+
+        // Verifica a validade do caminho. Se restarem produtos no caminhão ou na lista de lojas, o caminho é inválido.
+        if(Caminhao.getCarga() != 0 || Loja.restouProdutos(listaLojaCopy))
+            consumoDaPermutacao = Double.MAX_VALUE;
+
+        return consumoDaPermutacao;
     }
 
     public static ArrayList<Integer> getMelhorPermutacao() {
@@ -74,11 +110,5 @@ public class BruteForce {
     
     public static double getMenorConsumo() {
         return menorConsumo;
-    }
-
-    public static void imprimirPermutacoes(ArrayList<ArrayList<Integer>> permutacoes) {
-        for (ArrayList<Integer> arrayList : permutacoes) {
-            System.out.println(arrayList);
-        }
     }
 }
