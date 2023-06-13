@@ -105,11 +105,12 @@ public class TelaInicial extends JFrame {
 
                 try {
                     listaDeLojas = Loja.lerLojas(arquivo);
+                    ArrayList<Loja> listaDeLojasCopy = Loja.clonarListaLoja(listaDeLojas);
                     // Defini a capacidade do caminhão como a lida da interface.
                     Caminhao.CAPACIDADE_CAMINHAO = k;
 
                     start = System.currentTimeMillis();
-                    BranchAndBound.encontrarMelhorPermutacao(listaDeLojas);
+                    BranchAndBound.encontrarMelhorPermutacao(listaDeLojasCopy);
                     end = System.currentTimeMillis();
 
                     ArrayList<Integer> melhorPermutacao = BranchAndBound.melhorPermutacao;
