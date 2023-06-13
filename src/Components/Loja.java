@@ -1,3 +1,9 @@
+/**
+ * Componentes do grupo:
+ * João Pedro Lobato de Pinnho
+ * Lucas Carvalho da Luz.
+ */
+
 package Components;
 import java.util.*;
 import java.io.*;

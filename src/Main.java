@@ -1,3 +1,9 @@
+/**
+ * Componentes do grupo:
+ * João Pedro Lobato de Pinnho
+ * Lucas Carvalho da Luz.
+ */
+
 import Components.*;
 import javax.swing.SwingUtilities;
 

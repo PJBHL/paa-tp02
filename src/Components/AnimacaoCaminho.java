@@ -1,3 +1,9 @@
+/**
+ * Componentes do grupo:
+ * João Pedro Lobato de Pinnho
+ * Lucas Carvalho da Luz.
+ */
+
 package Components;
 import javax.swing.*;
 import javax.swing.Timer;
